@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip footstepClip;     // Assign a footstep sound
     public float footstepInterval = 0.5f; // Time between footstep sounds
     private float footstepTimer = 0f;
+    public GameObject price;
 
     // Movement settings
     public float moveSpeed = 5f;
@@ -58,63 +59,61 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+
+        if (!price.activeInHierarchy)
         {
-            SceneManager.LoadScene("Main Menu");
-        }
-
             // Mouse Look (Horizontal look)
             float mouseX = Input.GetAxis("Mouse X") * lookSpeedX;
-        transform.Rotate(Vector3.up * mouseX); // Rotate player around the Y-axis
+            transform.Rotate(Vector3.up * mouseX); // Rotate player around the Y-axis
 
-        // Mouse Look (Vertical look)
-        float mouseY = Input.GetAxis("Mouse Y") * lookSpeedY;
-        rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, minLookY, maxLookY); // Clamp up and down movement
-        playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f); // Rotate camera on the X-axis for up/down look
+            // Mouse Look (Vertical look)
+            float mouseY = Input.GetAxis("Mouse Y") * lookSpeedY;
+            rotationX -= mouseY;
+            rotationX = Mathf.Clamp(rotationX, minLookY, maxLookY); // Clamp up and down movement
+            playerCamera.localRotation = Quaternion.Euler(rotationX, 0f, 0f); // Rotate camera on the X-axis for up/down look
 
-        // Player Movement (WASD or arrow keys)
-        float moveX = Input.GetAxis("Horizontal"); 
-        float moveZ = Input.GetAxis("Vertical");   
+            // Player Movement (WASD or arrow keys)
+            float moveX = Input.GetAxis("Horizontal");
+            float moveZ = Input.GetAxis("Vertical");
 
-        // Determine speed based on whether shift is held (Sprint)
-        float speed = (Input.GetKey(KeyCode.LeftShift)) ? sprintSpeed : moveSpeed;
+            // Determine speed based on whether shift is held (Sprint)
+            float speed = (Input.GetKey(KeyCode.LeftShift)) ? sprintSpeed : moveSpeed;
 
-        // Calculate movement directions relative to the camera (the movement is always in world space)
-        Vector3 move = (transform.right * moveX) + (transform.forward * moveZ);
+            // Calculate movement directions relative to the camera (the movement is always in world space)
+            Vector3 move = (transform.right * moveX) + (transform.forward * moveZ);
 
-        // Ensure movement is parallel to the ground (ignore y axis)
-        move.y = 0f;
+            // Ensure movement is parallel to the ground (ignore y axis)
+            move.y = 0f;
 
-        // Apply movement using Rigidbody's velocity 
-        Vector3 targetVelocity = move * speed;
-        targetVelocity.y = rb.velocity.y; // Keep the player grounded
-        rb.velocity = targetVelocity;
+            // Apply movement using Rigidbody's velocity 
+            Vector3 targetVelocity = move * speed;
+            targetVelocity.y = rb.velocity.y; // Keep the player grounded
+            rb.velocity = targetVelocity;
 
-        // Check if the player is moving
-        isWalking = moveX != 0 || moveZ != 0;
+            // Check if the player is moving
+            isWalking = moveX != 0 || moveZ != 0;
 
-        // Apply Head Bob if walking
-        if (isWalking)
-        {
-            ApplyHeadBob();
-
-            // Play footsteps at intervals
-            footstepTimer -= Time.deltaTime;
-            if (footstepTimer <= 0f)
+            // Apply Head Bob if walking
+            if (isWalking)
             {
-                footstepAudio.PlayOneShot(footstepClip);  // Play footstep sound
-                footstepTimer = footstepInterval; // Reset timer
+                ApplyHeadBob();
+
+                // Play footsteps at intervals
+                footstepTimer -= Time.deltaTime;
+                if (footstepTimer <= 0f)
+                {
+                    footstepAudio.PlayOneShot(footstepClip);  // Play footstep sound
+                    footstepTimer = footstepInterval; // Reset timer
+                }
+            }
+            else
+            {
+                ResetHeadBob();
             }
         }
-        else
-        {
-            ResetHeadBob();
-        }
     }
-
     void ApplyHeadBob()
     {
         // Bobbing based on sine wave (sin time * speed) to make a smooth up-and-down movement

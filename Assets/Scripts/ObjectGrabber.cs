@@ -22,7 +22,7 @@ public class ObjectGrabber : MonoBehaviour
         if ((Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, grabRange)) && (hit.collider.CompareTag("Interactable")))
         {
             hand.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.E)) // e to grab
+            if (Input.GetButtonDown("Fire1")) // M1 to grab
         {
 
             if (hit.collider.CompareTag("Interactable"))
@@ -39,7 +39,7 @@ public class ObjectGrabber : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.E) && grabbedObject != null) // Release
+        if (Input.GetButtonUp("Fire1") && grabbedObject != null) // Release
         {
             grabbedObject.useGravity = true;
             grabbedObject = null;
