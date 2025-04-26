@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
     private float rotationX = 0f;
     private bool isWalking = false;
 
+    // Crouch settings
+    private Vector3 originalScale;
+    private bool isCrouching = false;
+
+
     // References to the Camera and Rigidbody
     private Transform playerCamera;
     private Rigidbody rb;
@@ -48,6 +53,8 @@ public class PlayerController : MonoBehaviour
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;  // Prevent the Rigidbody from rotating due to physics
+        originalScale = transform.localScale;
+
     }
 
     void OnApplicationQuit()
@@ -60,6 +67,23 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        // Crouch logic
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (!isCrouching)
+            {
+                transform.localScale = new Vector3(originalScale.x, originalScale.y * 0.5f, originalScale.z);
+                isCrouching = true;
+            }
+        }
+        else
+        {
+            if (isCrouching)
+            {
+                transform.localScale = originalScale;
+                isCrouching = false;
+            }
+        }
 
 
         if (!price.activeInHierarchy)
