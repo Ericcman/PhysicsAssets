@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5406826372746120063}
   - component: {fileID: 781951743873979463}
   - component: {fileID: 6898640424993179657}
-  - component: {fileID: 3927581461208342673}
   - component: {fileID: 3927581461208342678}
   m_Layer: 0
   m_Name: Jalamatoe
@@ -165,21 +164,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &3927581461208342673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5766889560677067434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce3c298029a92e94c88a7aa2bf3bb990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
-  grabRange: 7
-  hand: {fileID: 0}
 --- !u!64 &3927581461208342678
 MeshCollider:
   m_ObjectHideFlags: 0

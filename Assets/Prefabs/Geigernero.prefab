@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 234788968831909387}
   - component: {fileID: 273377156220346623}
   - component: {fileID: 9149226458569887094}
-  - component: {fileID: 234788968831909386}
   m_Layer: 0
   m_Name: Geigernero
   m_TagString: Interactable
@@ -179,18 +178,3 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &234788968831909386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6002193418001362815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce3c298029a92e94c88a7aa2bf3bb990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
-  grabRange: 7
-  hand: {fileID: 0}

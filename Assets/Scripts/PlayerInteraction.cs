@@ -8,6 +8,8 @@ public class PlayerInteraction : MonoBehaviour
     public float grabRange = 3f;
     public GameObject hand;
 
+    private Rigidbody grabbedObject;
+
     private void Update()
     {
         RaycastHit hit;
@@ -19,10 +21,26 @@ public class PlayerInteraction : MonoBehaviour
 
                 if (Input.GetButtonDown("Fire1"))
                 {
+                    AnimalProduce produce = hit.collider.GetComponent<AnimalProduce>();
+                    if (produce != null && !produce.hasBeenCollected)
+                    {
+                        produce.Collect();
+                        return;
+                    }
+
                     Plant plant = hit.collider.GetComponent<Plant>();
                     if (plant != null && !plant.hasBeenCollected)
                     {
                         plant.Collect();
+                        return;
+                    }
+
+                    // If no special script, grab the object
+                    Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        grabbedObject = rb;
+                        grabbedObject.useGravity = false;
                     }
                 }
             }
@@ -34,6 +52,22 @@ public class PlayerInteraction : MonoBehaviour
         else
         {
             hand.SetActive(false);
+        }
+
+        // Release the object on mouse release
+        if (Input.GetButtonUp("Fire1") && grabbedObject != null)
+        {
+            grabbedObject.useGravity = true;
+            grabbedObject = null;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (grabbedObject != null)
+        {
+            Vector3 targetPos = playerCamera.transform.position + playerCamera.transform.forward * grabRange;
+            grabbedObject.velocity = (targetPos - grabbedObject.position) * 10f; // Move smoothly
         }
     }
 }
