@@ -22,16 +22,23 @@ public class PlayerInteraction : MonoBehaviour
                 if (Input.GetButtonDown("Fire1"))
                 {
                     AnimalProduce produce = hit.collider.GetComponent<AnimalProduce>();
-                    if (produce != null && !produce.hasBeenCollected)
+                    if (produce != null)
                     {
                         produce.Collect();
                         return;
                     }
 
                     Plant plant = hit.collider.GetComponent<Plant>();
-                    if (plant != null && !plant.hasBeenCollected)
+                    if (plant != null)
                     {
                         plant.Collect();
+                        return;
+                    }
+
+                    Rest house = hit.collider.GetComponent<Rest>();
+                    if (house != null )
+                    {
+                        house.GoSleep();
                         return;
                     }
 

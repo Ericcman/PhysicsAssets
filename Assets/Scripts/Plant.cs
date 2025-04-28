@@ -9,15 +9,17 @@ public class Plant : MonoBehaviour
 
     public void Collect()
     {
-        hasBeenCollected = true;
-
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
+        if (hasBeenCollected == false)
         {
-            meshRenderer.enabled = false;
+            hasBeenCollected = true;
+
+            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
+            {
+                meshRenderer.enabled = false;
+            }
+
+            Instantiate(cropPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
         }
-
-        Instantiate(cropPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
-
     }
 }
